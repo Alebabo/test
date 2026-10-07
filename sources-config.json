@@ -97,7 +97,7 @@
       "intervalMinutes": 60,
       "includeAll": true,
       "category": "community",
-      "comments": true,
+      "comments": false,
       "commentPostLimit": 3
     },
     {
@@ -109,7 +109,7 @@
       "intervalMinutes": 60,
       "includeAll": true,
       "category": "community",
-      "comments": true,
+      "comments": false,
       "commentPostLimit": 3
     },
     {
@@ -121,7 +121,7 @@
       "intervalMinutes": 60,
       "includeAll": true,
       "category": "community",
-      "comments": true,
+      "comments": false,
       "commentPostLimit": 3
     },
     {
@@ -133,7 +133,7 @@
       "intervalMinutes": 60,
       "includeAll": false,
       "category": "community",
-      "comments": true,
+      "comments": false,
       "commentPostLimit": 3
     },
     {
@@ -145,7 +145,7 @@
       "intervalMinutes": 60,
       "includeAll": false,
       "category": "community",
-      "comments": true,
+      "comments": false,
       "commentPostLimit": 3
     },
     {
@@ -157,7 +157,7 @@
       "intervalMinutes": 60,
       "includeAll": false,
       "category": "community",
-      "comments": true,
+      "comments": false,
       "commentPostLimit": 3
     },
     {
@@ -169,7 +169,7 @@
       "intervalMinutes": 60,
       "includeAll": false,
       "category": "community",
-      "comments": true,
+      "comments": false,
       "commentPostLimit": 3
     },
     {
@@ -199,11 +199,12 @@
       "name": "Revolut Produktseite",
       "type": "webpage",
       "url": "https://www.revolut.com/de-DE/",
-      "enabled": true,
+      "enabled": false,
       "intervalMinutes": 60,
       "brand": "Revolut",
       "includeAll": true,
-      "category": "official"
+      "category": "official",
+      "setup": "Abruf durch Bot-Schutz blockiert (HTTP 403/401, auch mit Windows-curl). Am 07.10.2026 deaktiviert, damit der Bericht nicht jede Stunde denselben Fehler zeigt."
     },
     {
       "id": "official-bunq",
@@ -255,12 +256,12 @@
       "name": "comdirect Produktseite",
       "type": "webpage",
       "url": "https://www.comdirect.de/",
-      "enabled": true,
+      "enabled": false,
       "intervalMinutes": 60,
       "brand": "comdirect",
       "includeAll": true,
       "category": "official",
-      "setup": "Live-Prüfung am 07.10.2026: Quelle nicht zugänglich (404, 401, Redirect oder zu wenig Inhalt). Bleibt als Abrufversuch aktiv; URL/Zugang bei Bedarf korrigieren. Fehler werden im Bericht ausgewiesen."
+      "setup": "Abruf durch Bot-Schutz blockiert (HTTP 403/401, auch mit Windows-curl). Am 07.10.2026 deaktiviert, damit der Bericht nicht jede Stunde denselben Fehler zeigt."
     },
     {
       "id": "official-wise",
@@ -529,22 +530,24 @@
       "name": "Revolut Status",
       "type": "webpage",
       "url": "https://www.revolut.com/system-status/",
-      "enabled": true,
+      "enabled": false,
       "intervalMinutes": 60,
       "brand": "Revolut",
       "category": "status",
-      "includeAll": true
+      "includeAll": true,
+      "setup": "Abruf durch Bot-Schutz blockiert (HTTP 403/401, auch mit Windows-curl). Am 07.10.2026 deaktiviert, damit der Bericht nicht jede Stunde denselben Fehler zeigt."
     },
     {
       "id": "status-n26",
       "name": "N26 Status",
       "type": "webpage",
       "url": "https://status.n26.com/",
-      "enabled": true,
+      "enabled": false,
       "intervalMinutes": 60,
       "brand": "N26",
       "category": "status",
-      "includeAll": true
+      "includeAll": true,
+      "setup": "status.n26.com antwortet nicht mehr (Zertifikat passt nicht, Domain tot). Am 07.10.2026 deaktiviert; neue Statusseite von N26 bei Bedarf eintragen."
     },
     {
       "id": "status-wise",
@@ -562,23 +565,24 @@
       "name": "bunq Status",
       "type": "webpage",
       "url": "https://status.bunq.com/",
-      "enabled": true,
+      "enabled": false,
       "intervalMinutes": 60,
       "brand": "bunq",
       "category": "status",
       "includeAll": true,
-      "setup": "Live-Prüfung am 07.10.2026: Quelle nicht zugänglich (404, 401, Redirect oder zu wenig Inhalt). Bleibt als Abrufversuch aktiv; URL/Zugang bei Bedarf korrigieren. Fehler werden im Bericht ausgewiesen."
+      "setup": "Statusseite ist eine JavaScript-App (Instatus) ohne öffentlichen Feed. Am 07.10.2026 deaktiviert."
     },
     {
       "id": "c24-faq",
       "name": "C24 Hilfecenter",
-      "type": "webpage",
-      "url": "https://hilfe.c24.de/hc/de",
+      "type": "zendesk",
+      "url": "https://hilfe.c24.de/api/v2/help_center/de/articles.json",
       "enabled": true,
       "intervalMinutes": 60,
       "brand": "C24",
       "category": "official",
-      "includeAll": true
+      "includeAll": true,
+      "setup": "HTML-Seiten des Hilfecenters sind bot-geschützt (403). Seit 07.10.2026 über die öffentliche Zendesk-API: meldet Artikel, die in den letzten 7 Tagen bearbeitet wurden."
     },
     {
       "id": "n26-help",
@@ -596,11 +600,12 @@
       "name": "Revolut Hilfecenter",
       "type": "webpage",
       "url": "https://help.revolut.com/de-DE/",
-      "enabled": true,
+      "enabled": false,
       "intervalMinutes": 60,
       "brand": "Revolut",
       "category": "official",
-      "includeAll": true
+      "includeAll": true,
+      "setup": "Abruf durch Bot-Schutz blockiert (HTTP 403/401, auch mit Windows-curl). Am 07.10.2026 deaktiviert, damit der Bericht nicht jede Stunde denselben Fehler zeigt."
     },
     {
       "id": "c24-prices",

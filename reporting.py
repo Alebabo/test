@@ -15,6 +15,18 @@ def candidate(item):
     return not item.get('promptInjectionSuspected') and not item.get('baseline') and bool(SEVERE.search(text) or (item.get('category') == 'status' and ACTIVE.search(text)))
 
 
+# Early-warning signals for the Claude handoff only; they never trigger the rule-based critical alert on their own.
+EARLY = re.compile(r'prompt.?injection|jailbreak|chat.?bot.*(ausfall|down|hack|manipul|exploit)|ki.?(assistent|support).*(manipul|hack)|sicherheitslücke|security (flaw|vulnerability|loophole)|phishing|konto (wurde |wird )?(gesperrt|eingefroren)|account (locked|frozen|blocked)|\bsca\b', re.I)
+
+
+def review_candidate(item):
+    # Every new C24 mention plus early-warning signals goes to Claude, which decides whether an immediate hint is justified.
+    if item.get('promptInjectionSuspected') or item.get('baseline'):
+        return False
+    is_c24 = any(b in ('C24', 'C24 Bank', 'C24Bank') for b in item.get('brandMatches', []))
+    return candidate(item) or is_c24 or bool(EARLY.search(item['title'] + ' ' + item['text']))
+
+
 def priority(item):
     return (any(b in ('C24','C24 Bank','C24Bank') for b in item.get('brandMatches',[])), candidate(item), item.get('customerServiceRelated',False), item.get('observedAt',''))
 

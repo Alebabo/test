@@ -58,7 +58,9 @@ class ReportingTests(unittest.TestCase):
                 self.assertIn('Tagesbericht',first.getvalue())
                 handoff=json.loads((root/'output/claude-handoff-latest.json').read_text())
                 self.assertTrue(handoff['dailyReportCreated'])
-                self.assertEqual(handoff['criticalCandidates'],[])
+                # Every new C24 mention is handed to Claude for review; it is not a rule-based critical alert.
+                self.assertEqual([c['id'] for c in handoff['criticalCandidates']],['a:one'])
+                self.assertFalse((root/'output/critical-message-latest.txt').exists())
                 self.assertEqual(len(handoff['dailyCandidates']),1)
                 second=io.StringIO()
                 with contextlib.redirect_stdout(second):m.run(SimpleNamespace(root=directory,mode='Automation',quiet=True))
