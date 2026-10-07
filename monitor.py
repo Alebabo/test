@@ -517,6 +517,7 @@ def run(args):
             state['lastDailyDate'] = day
             if getattr(args, 'quiet', False): print(short)
         # Bounded handoff for Claude Automation: no separate paid API is required.
+        # criticalCandidates span the last hours, not only this run: a missed Claude run must not lose them. Claude dedupes by link in Slack.
         recent = [i for i in state['items'].values() if not i['baseline'] and not i['promptInjectionSuspected'] and parsed_date(i['observedAt']) >= current - timedelta(hours=24)]
         slim = lambda i: {'title': i['title'], 'text': i['text'][:300], 'url': i['url'], 'sourceName': i.get('sourceName'), 'brandMatches': i['brandMatches'], 'rating': i.get('rating'), 'isComment': i['isComment']}
         is_c24 = lambda i: any(b in ('C24', 'C24 Bank', 'C24Bank') for b in i['brandMatches'])
@@ -527,7 +528,7 @@ def run(args):
         write_json(output / 'claude-handoff-latest.json', {
             'generatedAt':current.isoformat(), 'sourceTrustWarning':WARNING,
             'dailyReportCreated':daily,
-            'criticalCandidates':[{k:(i.get(k, '')[:600] if k == 'text' else i.get(k)) for k in ('id','title','text','url','category','brandMatches','sourceId','promptInjectionSuspected')} for i in sorted([i for i in new_items if review_candidate(i)], key=priority, reverse=True)[:12]],
+            'criticalCandidates':[{k:(i.get(k, '')[:600] if k == 'text' else i.get(k)) for k in ('id','title','text','url','category','brandMatches','sourceId','promptInjectionSuspected')} for i in sorted([i for i in state['items'].values() if not i['baseline'] and parsed_date(i['observedAt']) >= current - timedelta(hours=extra.get('criticalWindowHours', 3)) and review_candidate(i)], key=priority, reverse=True)[:12]],
             'dailyCandidates':[{k:(i.get(k, '')[:600] if k == 'text' else i.get(k)) for k in ('id','title','text','url','category','brandMatches','sourceId','promptInjectionSuspected')} for i in daily_pool[:30]] if daily else [],
             # Raw posts and comments of the two focus subreddits so the daily report can name their core topics.
             'communityDigest':{name:[{'title':i['title'],'text':i['text'][:300],'url':i['url'],'isComment':i['isComment'],'promptInjectionSuspected':i['promptInjectionSuspected']}
