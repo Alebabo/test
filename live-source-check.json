@@ -1,0 +1,260 @@
+{
+  "checkedAt": "2026-10-07",
+  "commentsChecked": false,
+  "sources": [
+    {
+      "id": "reddit-finanzen",
+      "status": "error",
+      "detail": "Remote end closed connection without response"
+    },
+    {
+      "id": "reddit-revolut",
+      "status": "error",
+      "detail": "Remote end closed connection without response"
+    },
+    {
+      "id": "reddit-n26bank",
+      "status": "error",
+      "detail": "Remote end closed connection without response"
+    },
+    {
+      "id": "reddit-bunq",
+      "status": "ok",
+      "itemCount": 100
+    },
+    {
+      "id": "reddit-traderepublic",
+      "status": "error",
+      "detail": "Remote end closed connection without response"
+    },
+    {
+      "id": "reddit-eupersonalfinance",
+      "status": "ok",
+      "itemCount": 100
+    },
+    {
+      "id": "reddit-germany",
+      "status": "error",
+      "detail": "Remote end closed connection without response"
+    },
+    {
+      "id": "reddit-askgermany",
+      "status": "error",
+      "detail": "Remote end closed connection without response"
+    },
+    {
+      "id": "reddit-banking",
+      "status": "ok",
+      "itemCount": 100
+    },
+    {
+      "id": "official-c24",
+      "status": "ok",
+      "itemCount": 1
+    },
+    {
+      "id": "official-n26",
+      "status": "ok",
+      "itemCount": 1
+    },
+    {
+      "id": "official-revolut",
+      "status": "ok",
+      "itemCount": 1
+    },
+    {
+      "id": "official-bunq",
+      "status": "ok",
+      "itemCount": 1
+    },
+    {
+      "id": "official-trade-republic",
+      "status": "error",
+      "detail": "HTTP 404"
+    },
+    {
+      "id": "official-dkb",
+      "status": "ok",
+      "itemCount": 1
+    },
+    {
+      "id": "official-ing",
+      "status": "ok",
+      "itemCount": 1
+    },
+    {
+      "id": "official-comdirect",
+      "status": "error",
+      "detail": "HTTP 401"
+    },
+    {
+      "id": "official-wise",
+      "status": "ok",
+      "itemCount": 1
+    },
+    {
+      "id": "official-vivid",
+      "status": "ok",
+      "itemCount": 1
+    },
+    {
+      "id": "official-tomorrow",
+      "status": "ok",
+      "itemCount": 1
+    },
+    {
+      "id": "apple-c24",
+      "status": "ok",
+      "itemCount": 51
+    },
+    {
+      "id": "apple-n26",
+      "status": "ok",
+      "itemCount": 1
+    },
+    {
+      "id": "apple-revolut",
+      "status": "ok",
+      "itemCount": 1
+    },
+    {
+      "id": "apple-bunq",
+      "status": "ok",
+      "itemCount": 1
+    },
+    {
+      "id": "apple-trade-republic",
+      "status": "ok",
+      "itemCount": 1
+    },
+    {
+      "id": "apple-dkb",
+      "status": "ok",
+      "itemCount": 1
+    },
+    {
+      "id": "apple-ing",
+      "status": "ok",
+      "itemCount": 1
+    },
+    {
+      "id": "apple-comdirect",
+      "status": "ok",
+      "itemCount": 1
+    },
+    {
+      "id": "apple-wise",
+      "status": "ok",
+      "itemCount": 51
+    },
+    {
+      "id": "apple-vivid",
+      "status": "ok",
+      "itemCount": 51
+    },
+    {
+      "id": "apple-tomorrow",
+      "status": "ok",
+      "itemCount": 1
+    },
+    {
+      "id": "finanz-szene",
+      "status": "error",
+      "detail": "Remote end closed connection without response"
+    },
+    {
+      "id": "bankinghub",
+      "status": "ok",
+      "itemCount": 1
+    },
+    {
+      "id": "finextra",
+      "status": "ok",
+      "itemCount": 53
+    },
+    {
+      "id": "finanztip",
+      "status": "error",
+      "detail": "HTTP 302"
+    },
+    {
+      "id": "finanzfluss",
+      "status": "ok",
+      "itemCount": 1
+    },
+    {
+      "id": "mydealz",
+      "status": "ok",
+      "itemCount": 1
+    },
+    {
+      "id": "status-revolut",
+      "status": "ok",
+      "itemCount": 1
+    },
+    {
+      "id": "status-n26",
+      "status": "ok",
+      "itemCount": 1
+    },
+    {
+      "id": "status-wise",
+      "status": "ok",
+      "itemCount": 1
+    },
+    {
+      "id": "status-bunq",
+      "status": "error",
+      "detail": "Too little page content; possibly JavaScript or access protection"
+    },
+    {
+      "id": "c24-faq",
+      "status": "ok",
+      "itemCount": 1
+    },
+    {
+      "id": "n26-help",
+      "status": "ok",
+      "itemCount": 1
+    },
+    {
+      "id": "revolut-help",
+      "status": "ok",
+      "itemCount": 1
+    },
+    {
+      "id": "c24-prices",
+      "status": "ok",
+      "itemCount": 1
+    },
+    {
+      "id": "ing-prices",
+      "status": "ok",
+      "itemCount": 1
+    },
+    {
+      "id": "youtube",
+      "status": "not_configured"
+    },
+    {
+      "id": "x",
+      "status": "not_configured"
+    },
+    {
+      "id": "google-play",
+      "status": "not_configured"
+    },
+    {
+      "id": "trustpilot",
+      "status": "not_configured"
+    },
+    {
+      "id": "linkedin",
+      "status": "not_configured"
+    },
+    {
+      "id": "allestoerungen",
+      "status": "not_configured"
+    }
+  ]
+}

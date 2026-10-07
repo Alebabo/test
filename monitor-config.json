@@ -1,0 +1,49 @@
+{
+  "dailyReportAfterHour": 7,
+  "minimumSecondsBetweenRequests": 5,
+  "c24WatchGroups": [
+    ["Finanzen", "Revolut", "n26bank", "bunq", "traderepublic"],
+    ["eupersonalfinance", "germany", "AskGermany", "Banking"]
+  ],
+  "dailyGroups": [
+    {
+      "name": "German finance",
+      "subreddits": ["Finanzen"],
+      "includeAll": true,
+      "purpose": "Alle heutigen Beitraege aus r/Finanzen."
+    },
+    {
+      "name": "Direct competitors",
+      "subreddits": ["Revolut", "n26bank", "bunq", "traderepublic"],
+      "includeAll": true,
+      "purpose": "Neobanken, Apps, Chatbots und Kundensupport."
+    },
+    {
+      "name": "German and EU context",
+      "subreddits": ["eupersonalfinance", "germany", "AskGermany", "Banking"],
+      "includeAll": false,
+      "purpose": "Nur Marken- oder Kundenservice-Treffer."
+    }
+  ],
+  "subreddits": [
+    { "name": "Finanzen", "includeAll": true, "purpose": "Deutsche Finanz- und Bankdiskussionen; wichtigste Quelle fuer C24." },
+    { "name": "Revolut", "includeAll": true, "purpose": "Direkter Wettbewerber; App, Chatbot und Kundensupport." },
+    { "name": "n26bank", "includeAll": true, "purpose": "Direkter Wettbewerber; Chat-first Support und Kontoerfahrungen." },
+    { "name": "bunq", "includeAll": true, "purpose": "Europaeische Neobank; AI-Support und Eskalation zu Menschen." },
+    { "name": "traderepublic", "includeAll": true, "purpose": "Angrenzender Bank- und Broker-Wettbewerber; digitaler Kundenservice." },
+    { "name": "eupersonalfinance", "includeAll": false, "purpose": "Europaweite Vergleiche; nur Marken- oder Service-Treffer." },
+    { "name": "germany", "includeAll": false, "purpose": "Bankerfahrungen in Deutschland; nur Marken- oder Service-Treffer." },
+    { "name": "AskGermany", "includeAll": false, "purpose": "Bankempfehlungen und Supportfragen; nur Marken- oder Service-Treffer." },
+    { "name": "Banking", "includeAll": false, "purpose": "Allgemeine Banking-Probleme; nur Marken- oder Service-Treffer." }
+  ],
+  "brandKeywords": [
+    "C24 Bank", "C24", "C24Bank", "Revolut", "N26", "bunq", "Trade Republic",
+    "Vivid Money", "Tomorrow Bank", "DKB", "ING", "comdirect", "Wise"
+  ],
+  "customerServiceKeywords": [
+    "chatbot", "chat bot", "AI support", "AI agent", "KI-Assistent", "Kundenservice",
+    "customer service", "support", "hotline", "Beschwerde", "complaint", "escalation",
+    "Eskalation", "human agent", "Mitarbeiter", "account locked", "account blocked",
+    "Konto gesperrt", "Wartezeit", "response time"
+  ]
+}

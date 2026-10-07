@@ -1,0 +1,8 @@
+finanzen-heute.json
+output/
+.monitor-state.json
+.multisource-state.json
+.multisource.lock
+__pycache__/
+*.pyc
+.env

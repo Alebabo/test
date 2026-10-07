@@ -1,0 +1,6 @@
+# Linux/macOS: edit absolute paths, then add with crontab -e.
+# Run every full hour; ordinary scans produce no stdout.
+# stdout contains only the short daily report or critical messages.
+# Cron mails stdout only if a local mail system is configured.
+# Credentials must be provided securely in the job environment; do not commit them.
+0 * * * * cd /absolute/path/c24-monitor && /usr/bin/python3 monitor.py --mode Automation --quiet >> notifications.log 2>> errors.log
