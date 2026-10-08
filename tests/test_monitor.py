@@ -97,4 +97,24 @@ class MonitorTests(unittest.TestCase):
             with self.assertRaises(RuntimeError):
                 m.run(SimpleNamespace(root=directory,mode='Daily'))
 
+    def test_chatbot_digest_quota_per_region(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory)
+            (root/'monitor-config.json').write_text(json.dumps({'brandKeywords':['C24','Monzo','Sparkasse'],'customerServiceKeywords':[],'dailyReportAfterHour':7}))
+            sources=[{'id':'c24','name':'C24','type':'rss','enabled':True,'brand':'C24'},
+                     {'id':'de','name':'DE','type':'rss','enabled':True,'includeAll':True},
+                     {'id':'intl','name':'INTL','type':'rss','enabled':True,'includeAll':True,'region':'intl'}]
+            (root/'sources-config.json').write_text(json.dumps({'additionalServiceKeywords':[],'topics':{},'sources':sources,'chatbotDigestLimits':{'c24':2}}))
+            text={'c24':'Bankbot hilft nicht','de':'Sparkasse Chatbot','intl':'Monzo chatbot'}
+            def mock_fetch(source,*args):
+                return [{'id':str(i),'title':text[source['id']],'text':'','url':f'https://example.org/{source["id"]}/{i}','publishedAt':m.now().isoformat()} for i in range(5)],None
+            with patch.object(m,'fetch',side_effect=mock_fetch),contextlib.redirect_stdout(io.StringIO()):
+                m.run(SimpleNamespace(root=directory,mode='Daily'))
+            handoff=json.loads((root/'output/claude-handoff-latest.json').read_text(encoding='utf-8'))
+            digest=handoff['chatbotDigest']
+            self.assertEqual(len([i for i in digest if 'C24' in i['brandMatches']]),2)
+            self.assertEqual(len([i for i in digest if i['region']=='de' and 'C24' not in i['brandMatches']]),5)
+            self.assertEqual(len([i for i in digest if i['region']=='intl']),5)
+            self.assertTrue(all(i['region'] for i in handoff['criticalCandidates']+handoff['dailyCandidates']))
+
 if __name__=='__main__': unittest.main()

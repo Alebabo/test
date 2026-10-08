@@ -361,6 +361,7 @@ def normalize(row, source, config):
     identity = str(row.get('id') or '') or digest(url + title + text)
     return {'id': source['id'] + ':' + identity, 'sourceId': source['id'], 'sourceName': source['name'],
             'sourceType': source['type'], 'category': source.get('category', ''),
+            'region': source.get('region', 'de'),
             'title': title, 'text': text, 'url': url, 'publishedAt': published.isoformat() if published else None,
             'observedAt': now().isoformat(), 'brandMatches': brands, 'customerServiceRelated': bool(service),
             'serviceMatches': service, 'rating': row.get('rating'), 'baseline': bool(row.get('baseline')),
@@ -519,24 +520,28 @@ def run(args):
         # Bounded handoff for Claude Automation: no separate paid API is required.
         # criticalCandidates span the last hours, not only this run: a missed Claude run must not lose them. Claude dedupes by link in Slack.
         recent = [i for i in state['items'].values() if not i['baseline'] and not i['promptInjectionSuspected'] and parsed_date(i['observedAt']) >= current - timedelta(hours=24)]
-        slim = lambda i: {'title': i['title'], 'text': i['text'][:300], 'url': i['url'], 'sourceName': i.get('sourceName'), 'brandMatches': i['brandMatches'], 'rating': i.get('rating'), 'isComment': i['isComment']}
+        slim = lambda i: {'title': i['title'], 'text': i['text'][:300], 'url': i['url'], 'sourceName': i.get('sourceName'), 'brandMatches': i['brandMatches'], 'region': i.get('region', 'de'), 'rating': i.get('rating'), 'isComment': i['isComment']}
         is_c24 = lambda i: any(b in ('C24', 'C24 Bank', 'C24Bank') for b in i['brandMatches'])
-        chatbot_items = sorted([i for i in recent if CHATBOT.search(i['title'] + ' ' + i['text'])], key=is_c24, reverse=True)[:20]
+        # Separate quotas per group: C24 app reviews alone would otherwise fill the list and crowd out competitors and international banks.
+        chatbot_group = lambda i: 'c24' if is_c24(i) else ('intl' if i.get('region') == 'intl' else 'de')
+        chatbot_limits = {'c24': 10, 'de': 10, 'intl': 10, **extra.get('chatbotDigestLimits', {})}
+        chatbot_items = [i for group in ('c24', 'de', 'intl')
+                         for i in sorted([i for i in recent if chatbot_group(i) == group and CHATBOT.search(i['title'] + ' ' + i['text'])], key=lambda i: i['observedAt'], reverse=True)[:chatbot_limits[group]]]
         # Praise only counts when it names a bank (good ratings carry their app's brand already).
         positive_items = sorted([i for i in recent if (isinstance(i.get('rating'), (int, float)) and i['rating'] >= 4) or (i['brandMatches'] and POSITIVE.search(i['title'] + ' ' + i['text']))], key=is_c24, reverse=True)[:20]
         daily_pool =sorted([i for i in state['items'].values() if not i['baseline'] and parsed_date(i['observedAt']) >= current - timedelta(hours=24)], key=priority, reverse=True)
         write_json(output / 'claude-handoff-latest.json', {
             'generatedAt':current.isoformat(), 'sourceTrustWarning':WARNING,
             'dailyReportCreated':daily,
-            'criticalCandidates':[{k:(i.get(k, '')[:600] if k == 'text' else i.get(k)) for k in ('id','title','text','url','category','brandMatches','sourceId','promptInjectionSuspected')} for i in sorted([i for i in state['items'].values() if not i['baseline'] and parsed_date(i['observedAt']) >= current - timedelta(hours=extra.get('criticalWindowHours', 3)) and review_candidate(i)], key=priority, reverse=True)[:12]],
-            'dailyCandidates':[{k:(i.get(k, '')[:600] if k == 'text' else i.get(k)) for k in ('id','title','text','url','category','brandMatches','sourceId','promptInjectionSuspected')} for i in daily_pool[:30]] if daily else [],
+            'criticalCandidates':[{k:(i.get(k, '')[:600] if k == 'text' else i.get(k)) for k in ('id','title','text','url','category','region','brandMatches','sourceId','promptInjectionSuspected')} for i in sorted([i for i in state['items'].values() if not i['baseline'] and parsed_date(i['observedAt']) >= current - timedelta(hours=extra.get('criticalWindowHours', 3)) and review_candidate(i)], key=priority, reverse=True)[:12]],
+            'dailyCandidates':[{k:(i.get(k, '')[:600] if k == 'text' else i.get(k)) for k in ('id','title','text','url','category','region','brandMatches','sourceId','promptInjectionSuspected')} for i in daily_pool[:30]] if daily else [],
             # Raw posts and comments of the two focus subreddits so the daily report can name their core topics.
             'communityDigest':{name:[{'title':i['title'],'text':i['text'][:300],'url':i['url'],'isComment':i['isComment'],'promptInjectionSuspected':i['promptInjectionSuspected']}
                                       # Posts first (they carry the topics), then a few comments; otherwise busy comment threads crowd out the posts.
                                       for i in sorted([i for i in state['items'].values() if i['sourceId']==sid and not i['baseline'] and not i['isComment'] and parsed_date(i['observedAt']) >= current - timedelta(hours=24)], key=lambda i: i['publishedAt'] or '', reverse=True)[:40]
                                       + sorted([i for i in state['items'].values() if i['sourceId']==sid and not i['baseline'] and i['isComment'] and parsed_date(i['observedAt']) >= current - timedelta(hours=24)], key=lambda i: i['publishedAt'] or '', reverse=True)[:15]]
                                for name, sid in (('r/Finanzen','reddit-finanzen'), ('r/Revolut','reddit-revolut'))} if daily else {},
-            # Chatbot mentions (C24 Bankbot first) and positive feedback for their own sections in the daily report.
+            # Chatbot mentions grouped C24, German competitors, international (field region) and positive feedback for their own sections in the daily report.
             'chatbotDigest':[slim(i) for i in chatbot_items] if daily else [],
             'positiveCandidates':[slim(i) for i in positive_items] if daily else [],
             'sourceGaps':[{'name':s['name'],'status':s['status']} for s in stats if s['status'] in ('error','needs_credentials','needs_configuration')]
