@@ -757,6 +757,17 @@
       "setup": "Eigener Feed finanz-szene.de/feed/ liefert serverseitig HTTP 500 (geprüft 08.10.2026). Ersatz: Google-News-Suche nach site:finanz-szene.de."
     },
     {
+      "id": "financefwd",
+      "name": "Finance Forward",
+      "type": "rss",
+      "url": "https://financefwd.com/de/feed/",
+      "enabled": true,
+      "intervalMinutes": 60,
+      "category": "news",
+      "includeAll": false,
+      "setup": "Letzter Beitrag im Feed vom 12.08.2026: Finance Forward wurde in OMR und manager magazin überführt. Quelle bleibt aktiv, liefert aber vermutlich kaum Neues."
+    },
+    {
       "id": "bankinghub",
       "name": "BankingHub",
       "type": "webpage",
