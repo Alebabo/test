@@ -817,7 +817,7 @@
       "id": "news-bankbot-us",
       "name": "Google News Bank-Chatbots USA",
       "type": "rss",
-      "url": "https://news.google.com/rss/search?q=bank+%28chatbot+OR+%22AI+assistant%22+OR+Erica+OR+Eno%29&hl=en-US&gl=US&ceid=US:en",
+      "url": "https://news.google.com/rss/search?q=bank+%28chatbot+OR+%22AI+assistant%22+OR+%22Bank+of+America+Erica%22+OR+%22Capital+One+Eno%22%29&hl=en-US&gl=US&ceid=US:en",
       "enabled": true,
       "intervalMinutes": 120,
       "category": "news",
