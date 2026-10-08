@@ -533,7 +533,7 @@ def run(args):
         write_json(output / 'claude-handoff-latest.json', {
             'generatedAt':current.isoformat(), 'sourceTrustWarning':WARNING,
             'dailyReportCreated':daily,
-            'criticalCandidates':[{k:(i.get(k, '')[:600] if k == 'text' else i.get(k)) for k in ('id','title','text','url','category','region','brandMatches','sourceId','promptInjectionSuspected')} for i in sorted([i for i in state['items'].values() if not i['baseline'] and parsed_date(i['observedAt']) >= current - timedelta(hours=extra.get('criticalWindowHours', 3)) and review_candidate(i)], key=priority, reverse=True)[:12]],
+            'criticalCandidates':[{k:(i.get(k, '')[:2500] if k == 'text' else i.get(k)) for k in ('id','title','text','url','category','region','brandMatches','sourceId','promptInjectionSuspected')} for i in sorted([i for i in state['items'].values() if not i['baseline'] and parsed_date(i['observedAt']) >= current - timedelta(hours=extra.get('criticalWindowHours', 3)) and review_candidate(i)], key=priority, reverse=True)[:12]],
             'dailyCandidates':[{k:(i.get(k, '')[:600] if k == 'text' else i.get(k)) for k in ('id','title','text','url','category','region','brandMatches','sourceId','promptInjectionSuspected')} for i in daily_pool[:30]] if daily else [],
             # Raw posts and comments of the two focus subreddits so the daily report can name their core topics.
             'communityDigest':{name:[{'title':i['title'],'text':i['text'][:300],'url':i['url'],'isComment':i['isComment'],'promptInjectionSuspected':i['promptInjectionSuspected']}
